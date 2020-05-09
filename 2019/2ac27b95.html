@@ -163,7 +163,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    752 字
+                    4 字
                   </span>
                 
 
@@ -173,7 +173,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    10
+                    1
                      分钟
                   </span>
                 
@@ -208,97 +208,8 @@
               </p>
             
             <article class="markdown-body">
-              <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><center>Softether VPNClient Linux端配置及加入VPNServer过程.</center>
+              <p>准备重写！</p>
 
-<a id="more"></a>
-<h1 class="postTitle">Softether VPNClient Linux端配置及加入VPNServer过程</h1>
-<h2>一、安装及配置过程</h2>
-<div class="hljs"><pre><code class="hljs plain">$ wget https:&#x2F;&#x2F;github.com&#x2F;SoftEtherVPN&#x2F;SoftEtherVPN_Stable&#x2F;releases&#x2F;download&#x2F;v4.29-9680-rtm&#x2F;softether-vpnclient-v4.29-9680-rtm-2019.02.28-linux-x64-64bit.tar.gz 
-&gt; tar -zxvf softether-vpnclient-v4.29-9680-rtm-2019.02.28-linux-x64-64bit.tar.gz
-&gt; cd vpnclient
-$ make    --&gt;所有都选择&quot;1.yes&quot;最后会编译成功
-$ mv vpnserver &#x2F;usr&#x2F;local
-$ cd &#x2F;usr&#x2F;local&#x2F;vpnclient&#x2F;
-$ chmod 600 *
-$ chmod 700 vpncmd
-$ chmod 700 vpnclient</code></pre></div>
-<h2>二、运行及配置</h2>
-#./vpnclient start    <strong>——&gt;运行vpnclient 可用stop/restart
-#./vpncmd               配置vpnclient
-</div>
-产生如下内容
-<div class="cnblogs_code">
-<div class="hljs"><pre>vpncmd 命令 - PacketiX VPN 命令行管理工具
-PacketiX VPN 命令行管理工具 (vpncmd 命令)
-Version 3.04 Build 7768 Beta 1 (Simplified_Chinese)
-Compiled 2012/01/19 22:33:51 by yagi at pc25
-Copyright (C) 2004-2012 SoftEther Corporation. All Rights Reserved.
-
-<p>通过使用 vpncmd 程序，可以取得以下成果。</p>
-<ol>
-<li>管理的 VPN Server 或 VPN Bridge</li>
-<li>管理 VPN Client</li>
-<li>使用 VPN 工具 (创建证书和通信速度测量)</li>
-</ol>
-<p>选择 1, 2 或 3: 2 <strong>——&gt;这里我们选择进行配置</strong></p>
-<p></pre></div><br>指定的主机名或正在运行的目标 VPN Client 计算机的 IP 地址。<br>如果不输入任何内容并且按下回车键，将连接到本地主机 (这台电脑)。<br>输入目标主机名或 IP 地址:<strong>——&gt;这里不用输入什么，直接回车就可以了</strong></p>
-<p>连接到 VPN Client “localhost”。</p>
-<p>VPN Client&gt;help <strong>——&gt;可以列出你想要的命令进行相关的配置</strong></p>
-</div>
-<h2>三、配置VPNClient</h2>
-<div class="cnblogs_code">
-<div class="hljs"><pre>VPNClient&gt;RemoteEnable 　　　　　　 <strong>——&gt; 打开远程管理,然后通过WINDOWS管理客户端登录</strong></pre></div>
-</div>
-<h2>　　四、验证命令</h2>
-<div class="cnblogs_code">
-<div class="hljs"><pre>#ifconfig                            <strong>                       ——&gt;查看是否获取到ip</strong>
-#dhclient vpn_vpn  　　　　　　                               <strong>——&gt;找dhcp获取ip</strong>
-#ifconfig                                                   <strong>——&gt;现看看是否成功</strong>
-#sudo ip route add 61.39.160.58 via 192.168.1.1 dev eth0    ---&gt;(这里看你使用的是有线还是无线网络) <strong>——&gt;将VPN服务器IP添加到eth0)</strong>
-#sudo ip route del default                                  <strong>——&gt;删除默认路由</strong>
-#sudo ip route add default via 192.168.30.1                 <strong>——&gt;添加默认路由 192.168.30.1 为VPN服务器拨通后的网关按需修改</strong>
-</pre></div>
-</div>
-<img src="https://pic002.cnblogs.com/images/2012/442643/2012091711101429.png" srcset="/img/loading.gif" alt="" />这样就大功告成！将我们的一台机器加入到我们的VPN中了，就可以实现我们想要做的东东了~~~~
-<h2>五、一些售后服务</h2>
-<h2>1、添加开机启动VPN服务</h2>
-<div class="cnblogs_code">
-<div class="hljs"><pre>#vi /etc/init.d/vpnclient   --------&gt;&gt;新建启动脚本
-<span class="hljs-meta">#!/bin/bash</span>
-vpnclientpath=/usr/local/vpnclient
-<span class="hljs-keyword">if</span> [ ! -w <span class="hljs-variable">$vpnclientpath</span> ]
-<span class="hljs-keyword">then</span>
-sudo chmod 777 <span class="hljs-variable">$vpnclientpath</span>
-<span class="hljs-keyword">fi</span>
-<span class="hljs-built_in">cd</span> <span class="hljs-variable">$vpnclientpath</span>
-./vpnclient start
-<span class="hljs-built_in">exit</span> 0</pre></div>
-</div>
-2、设置VPN启动后自动连接VPN服务
-<div>
-<div class="cnblogs_code">
-<div class="hljs"><pre>#./vpncmd                                    <strong> ——&gt;</strong><strong>选择2进入管理</strong>
-VPNClient&gt;AccountStartupSet       　　　　　　  <strong>——&gt; 设定连接设置的VPN启动连接</strong></pre></div>
-</div>
-假若出现某些问题，你可以试试看
-
-</div>
-假若你不可以访问网络，你必须保证你的防火墙（尽量不要关闭，但在测试的时候可以试试关闭看看）可以让vpn通过：<strong>
-</strong>
-<div class="cnblogs_code">
-<div class="hljs"><pre>#<strong>./vpnclient stop</strong>
-<strong>#route del default</strong>
-<strong>#route add default dev ppp0</strong>　
-# echo 1 &gt; /proc/sys/net/ipv4/ip_forward</pre></div>
-</div>
-或者编辑这个文件
-<div class="cnblogs_code">
-<div class="hljs"><pre># /etc/sysctl.conf</pre></div>
-</div>
-</div>
-双网卡转发可以参考: https://blog.csdn.net/luozhen07/article/details/48051005
-
-</div>
             </article>
             <hr>
             <div>
