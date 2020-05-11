@@ -64,7 +64,7 @@
 <meta name="generator" content="Hexo 4.2.0"></head>
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 50vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -131,6 +131,10 @@
                 class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
           </li>
         
+		<li class="nav-item">
+		<a class="nav-link" href="https://isharecloud.tk" target="_blank" rel="noopener"><i
+                class="iconfont icon-link-fill"></i>&nbsp;我的网盘</a>
+		</li>
       </ul>
     </div>
   </div>
@@ -203,7 +207,7 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2020年5月8日 上午
+                  本文最后更新于：2020年5月11日 下午
                 
               </p>
             
@@ -255,12 +259,6 @@ exec(<span class="hljs-string">'hexo server'</span>,(error, stdout, stderr) =&gt
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
-                    
-                      <a href="/2020/bdcb7848.html">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">hexo的文章写作语法</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
                     
                   </div>
                   <div class="post-next col-6">
@@ -344,10 +342,10 @@ exec(<span class="hljs-string">'hexo server'</span>,(error, stdout, stderr) =&gt
   <footer class="mt-5">
   <div class="text-center py-3">
     <div>
-      <a href="#" target="_blank" rel="nofollow noopener"><span>Github</span></a>
+      <a href="https://isharecloud.tk" target="_blank" rel="nofollow noopener"><span>网盘</span></a>
       <i class="iconfont icon-love"></i>
-      <a href="#" target="_blank" rel="nofollow noopener">
-        <span>备用站</span></a>
+      <a href="youwei5683.github.io" target="_blank" rel="nofollow noopener">
+        <span>备用站点</span></a>
     </div>
     
   <div>
@@ -371,9 +369,40 @@ exec(<span class="hljs-string">'hexo server'</span>,(error, stdout, stderr) =&gt
     
 
     
-  </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("02/14/2019 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站安全运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+  </div> 
+  
 </footer>
-
 <!-- SCRIPTS -->
 <script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
 <script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
