@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>MTU值的作用以及设置</title>
+    <link href="/2020/a0a0f41d.html"/>
+    <url>/2020/a0a0f41d.html</url>
+    
+    <content type="html"><![CDATA[<p>1、什么情况下需要改MTU？<br>　　如果您的动态域名网站不能被正常访问，很难连接，连接上也非常慢，请试试把DirectSend设为“总是关闭”。如果关闭后可以正常访问，这种情况就需要修改MTU。如果您的网站连接正常，只是下载速度慢，就不必改MTU了。请跳过这一节。</p><p>2、什么是MTU？<br>　　MTU是Maximum Transmission Unit的缩写。意思是网络上传送的最大数据包。MTU的单位是字节。<br>　　大部分网络设备的MTU都是1500。如果本机的MTU比网关的MTU大，大的数据包就会被拆开来传送，这样会产生很多数据包碎片，增加丢包率，降低网络速度。把本机的MTU设成比网关的MTU小或相同，就可以减少丢包。(但是我们平时宽带上网使用PPPoE协议最大是1492,因为在PPPoE协议中对数据重新封装,会产生8Byte的PPP包头包尾数据)</p><p>3、如何检测网关的MTU？<br>　　在本机打开dos窗口，执行：<br>　　　   <code>ping -f -l 1472 192.168.0.1</code><br>　　　　其中<code>192.168.0.1</code>是网关IP地址，1472是数据包的长度。请注意，上面的参数是“-l”（小写的L），而不是“-1”。<br>　　如果能ping通，表示数据包不需要拆包，可以通过网关发送出去。<br>　　如果出现：<br>　　　　<code>Packet needs to be fragmented but DF set.</code><br>　　表示数据包需要拆开来发送。此时，减少数据包长度，再执行上面的ping命令。从1400到1472之间多试几次，就能找到合适的数据包长度了。把数据包长度加上数据包头28字节，就得到MTU的值。<br>　　如果检测到网关的MTU值是1500，不需要修改。<br>　　如果网关有防火墙ping不通，可以试试直接把MTU设为1400。</p><p>4、如何修改本机的MTU？<br>　　修改方法如下：<br>（1）、运行regedit<br>（2）、浏览到：<br>　　<code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces</code><br>如图2<br>（3）、Interfaces下有多个子项，每个子项对应一个网卡。请按如下方法选择网卡：<br>　　（a）确定本机用来连接Internet的网卡或拨号连接的IP，如192.168.0.19；<br>　　（b）用鼠标点击Interfaces上的子项，查看键值列表中的IPAddress项；<br>　　（c）如果IPAddress的键值与（a）中的IP相同，即192.168.0.19，则该子项就是要找的网卡。<br>（4）、进入该子项，在右边的窗口里按鼠标右键，选择“新建”-&gt;“双字节值”，输入名称“MTU”，按回车。再用鼠标双击“MTU”，弹出修改窗口：<br>如图3：<br>　　填入MTU的值。填写前请先把基数设为十进制。<br>　　设置好后，需要重启机器才能生效。</p><p>如果在有交换机路由设备中出现传输故障,也要仔细查看配置MTU值是否一致或者符合传输要求.</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>V2RAY手动安装及简单配置</title>
     <link href="/2020/e68ed487.html"/>
     <url>/2020/e68ed487.html</url>
