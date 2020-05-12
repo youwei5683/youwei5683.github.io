@@ -36,7 +36,7 @@
   <meta name="description" content="没有会与不会，只有想与不想。">
   <meta name="author" content="Ding">
   <meta name="keywords" content="">
-  <title>Ubuntu修改时区和更新时间 - DingBlog</title>
+  <title>CADDY一键安装脚本及简单配置 - DingBlog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -148,7 +148,7 @@
           <div class="container text-center white-text fadeInUp">
             <span class="h2" id="subtitle">
               
-                Ubuntu修改时区和更新时间
+                CADDY一键安装脚本及简单配置
               
             </span>
 
@@ -156,8 +156,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2019-03-21 16:48">
-                    2019年3月21日 下午
+                  <time datetime="2020-05-12 13:47">
+                    2020年5月12日 下午
                   </time>
                 </div>
               
@@ -167,7 +167,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    222 字
+                    397 字
                   </span>
                 
 
@@ -177,7 +177,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    2
+                    7
                      分钟
                   </span>
                 
@@ -207,50 +207,99 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2019年3月21日 下午
+                  本文最后更新于：2020年5月12日 下午
                 
               </p>
             
             <article class="markdown-body">
-              <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><center>Ubuntu修改时区和更新时间.</center>
+              <h3 id="Caddy-一键安装与配置"><a href="#Caddy-一键安装与配置" class="headerlink" title="Caddy 一键安装与配置"></a>Caddy 一键安装与配置</h3><h4 id="Caddy-一键安装及简单配置"><a href="#Caddy-一键安装及简单配置" class="headerlink" title="Caddy 一键安装及简单配置"></a>Caddy 一键安装及简单配置</h4><h5 id="一键安装"><a href="#一键安装" class="headerlink" title="一键安装"></a>一键安装</h5><div class="hljs"><pre><code class="hljs bash">wget -N --no-check-certificate https://raw.githubusercontent.com/Joyace/sh/master/caddy_install.sh &amp;&amp; chmod +x caddy_install.sh &amp;&amp; bash caddy_install.sh install http.filebrowser
 
-<a id="more"></a>
+<span class="hljs-comment">#备用地址</span>
+wget -N --no-check-certificate https://www.moerats.com/usr/shell/Caddy/caddy_install.sh &amp;&amp; chmod +x caddy_install.sh &amp;&amp; bash caddy_install.sh</code></pre></div>
+<p>Caddy 使用说明</p>
+<ul>
+<li><p><strong>启动：</strong><code>/etc/init.d/caddy start</code></p>
+</li>
+<li><p><strong>停止：</strong><code>/etc/init.d/caddy stop</code></p>
+</li>
+<li><p><strong>重启：</strong><code>/etc/init.d/caddy restart</code></p>
+</li>
+<li><p><strong>查看状态：</strong><code>/etc/init.d/caddy status</code></p>
+</li>
+<li><p><strong>查看Caddy启动日志：</strong> <code>tail -f /tmp/caddy.log</code></p>
+</li>
+<li><p><strong>安装目录：</strong><code>/usr/local/caddy</code></p>
+</li>
+<li><p><strong>Caddy配置文件位置：</strong><code>/usr/local/caddy/Caddyfile</code></p>
+</li>
+<li><p><strong>Caddy自动申请SSL证书位置：</strong><code>/.caddy/acme/acme-v01.api.letsencrypt.org/sites/xxx.xxx(域名)/</code></p>
+</li>
+</ul>
+<h5 id="配置示范"><a href="#配置示范" class="headerlink" title="配置示范"></a>配置示范</h5><ul>
+<li><strong>CADDY+ HTTP + V2RAY + TLS</strong><div class="hljs"><pre><code class="hljs nginx">http://xxx.com &#123;
+ <span class="hljs-attribute">timeouts</span> <span class="hljs-literal">none</span>
+ redir https://xxx.com&#123;url&#125;
+&#125;
 
-<p>Ubuntu修改时区和更新时间<br>先查看当前系统时间</p>
-<div class="hljs"><pre><code class="hljs plain">root@ubuntu:&#x2F;# date -R</code></pre></div>
-<p>结果时区是：-0500<br>我需要的是东八区，这儿显示不是，所以需要设置一个时区</p>
-<p>1.运行tzselect</p>
-<div class="hljs"><pre><code class="hljs plain">root@ubuntu:&#x2F;# tzselect</code></pre></div>
+https://xxx.com &#123;
+ <span class="hljs-attribute">root</span> /usr/local/caddy/www/
+ timeouts <span class="hljs-literal">none</span>
+ tls xxx<span class="hljs-variable">@email</span>.com <span class="hljs-comment">#或者 /path/ca.crt /path/key.key</span>
+ gzip
+ proxy /path/ localhost:<span class="hljs-number">8883</span> &#123;
+  websocket
+  <span class="hljs-attribute">header_upstream</span> -Origin
+  &#125;
+&#125;</code></pre></div></li>
+<li><strong>CADDY+ HTTP2 + V2RAY + TLS</strong><div class="hljs"><pre><code class="hljs nginx">http://xxx.com &#123;
+    redir https://xxx.com&#123;url&#125;
+&#125;
 
-<p>在这里我们选择亚洲 Asia，确认之后选择中国（China)，最后选择北京(Beijing)</p>
-<p>2.复制文件到/etc目录下</p>
-<div class="hljs"><pre><code class="hljs plain">root@ubuntu:&#x2F;# cp &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai  &#x2F;etc&#x2F;localtime</code></pre></div>
+https://xxx.com &#123;
+    <span class="hljs-attribute">root</span> /var/www/
+    tls xxx<span class="hljs-variable">@email</span>.com <span class="hljs-comment">#或者 /path/ca.crt /path/key.key</span>
+    proxy /path https://localhost:8883 &#123;
+        insecure_skip_verify
+        <span class="hljs-attribute">header_upstream</span> X-Forwarded-Proto <span class="hljs-string">"https"</span>
+        header_upstream Host <span class="hljs-string">"k1.1stoptrans.tk"</span>
+    &#125;
+&#125;</code></pre></div></li>
+<li><strong>filebrowser</strong><div class="hljs"><pre><code class="hljs nginx">http://xxx.com &#123;
+ <span class="hljs-attribute">timeouts</span> <span class="hljs-literal">none</span>
+ redir https://xxx.com&#123;url&#125;
+&#125;
 
-<p>3.再次查看时间date -R，已经修改为北京时间</p>
-<p>改时间参考<br>修改时间</p>
-<div class="hljs"><pre><code class="hljs plain">sudo date -s MM&#x2F;DD&#x2F;YY &#x2F;&#x2F;修改日期
-sudo date -s hh:mm:ss &#x2F;&#x2F;修改时间</code></pre></div>
-<p>在修改时间以后，修改硬件CMOS的时间</p>
-<div class="hljs"><pre><code class="hljs plain">sudo hwclock --systohc &#x2F;&#x2F;非常重要，如果没有这一步的话，后面时间还是不准</code></pre></div>
+xxx.com &#123;
+ <span class="hljs-attribute">root</span> /usr/local/caddy/www/file
+ timeouts <span class="hljs-literal">none</span>
+ tls xxx<span class="hljs-variable">@mail</span>.com
+ gzip
+ filebrowser / /usr/local/caddy/www/file &#123;
+  <span class="hljs-attribute">database</span> /usr/local/caddy/filebrowser.db
+ &#125;
+&#125;</code></pre></div></li>
+<li><strong>typecho</strong><div class="hljs"><pre><code class="hljs bash">apt-get install php7.0-cgi php7.0-fpm php7.0-curl php7.0-gd php7.0-mbstring php7.0-xml php7.0-sqlite3 
+sqlite3 -y</code></pre></div>
+<div class="hljs"><pre><code class="hljs nginx">http://xxx.com &#123;
+    redir https://xxx.com&#123;url&#125;
+    &#125;
+    https://xxx.com &#123;
+    gzip
+    <span class="hljs-attribute">tls</span> xxx<span class="hljs-variable">@mail</span>.com
+    root /typecho
+    fastcgi / /run/php/php7.<span class="hljs-number">0</span>-fpm.sock php
+    rewrite &#123;
+        if &#123;path&#125; not_match ^\/admin
+        to &#123;path&#125; &#123;path&#125;/ /index.php?&#123;query&#125;
+     &#125;
+&#125;</code></pre></div></li>
+</ul>
+
             </article>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0/">日常笔记</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/VPN/">VPN</a>
-                    
-                  </div>
                 
               </div>
               
@@ -261,9 +310,9 @@ sudo date -s hh:mm:ss &#x2F;&#x2F;修改时间</code></pre></div>
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2019/2ac27b95.html">
+                      <a href="/2020/e68ed487.html">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Softether VPNClient Linux端配置及加入VPNServer过程</span>
+                        <span class="hidden-mobile">V2RAY手动安装及简单配置</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -271,8 +320,8 @@ sudo date -s hh:mm:ss &#x2F;&#x2F;修改时间</code></pre></div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2019/4bd2725e.html">
-                        <span class="hidden-mobile">升级 Ubuntu，解决登录时提示有软件包可以更新的问题</span>
+                      <a href="/2020/ab21860c.html">
+                        <span class="hidden-mobile">Hexo默认使用的文章永久链接</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

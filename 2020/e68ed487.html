@@ -36,7 +36,7 @@
   <meta name="description" content="没有会与不会，只有想与不想。">
   <meta name="author" content="Ding">
   <meta name="keywords" content="">
-  <title>Ubuntu修改时区和更新时间 - DingBlog</title>
+  <title>V2RAY手动安装及简单配置 - DingBlog</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -148,7 +148,7 @@
           <div class="container text-center white-text fadeInUp">
             <span class="h2" id="subtitle">
               
-                Ubuntu修改时区和更新时间
+                V2RAY手动安装及简单配置
               
             </span>
 
@@ -156,8 +156,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2019-03-21 16:48">
-                    2019年3月21日 下午
+                  <time datetime="2020-05-12 14:04">
+                    2020年5月12日 下午
                   </time>
                 </div>
               
@@ -167,7 +167,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    222 字
+                    684 字
                   </span>
                 
 
@@ -177,7 +177,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    2
+                    12
                      分钟
                   </span>
                 
@@ -207,50 +207,251 @@
             
               <p class="note note-info">
                 
-                  本文最后更新于：2019年3月21日 下午
+                  本文最后更新于：2020年5月12日 下午
                 
               </p>
             
             <article class="markdown-body">
-              <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><center>Ubuntu修改时区和更新时间.</center>
+              <h3 id="V2ray-安装及配置"><a href="#V2ray-安装及配置" class="headerlink" title="V2ray 安装及配置"></a>V2ray 安装及配置</h3><h4 id="V2ray-安装及配置-1"><a href="#V2ray-安装及配置-1" class="headerlink" title="V2ray 安装及配置"></a>V2ray 安装及配置</h4><h5 id="一键安装"><a href="#一键安装" class="headerlink" title="一键安装"></a>一键安装</h5><div class="hljs"><pre><code class="hljs bash">bash &lt;(curl -L -s https://install.direct/go.sh)</code></pre></div>
+<p>######此脚本会自动安装以下文件：</p>
+<ul>
+<li><strong>/usr/bin/v2ray/v2ray：V2Ray 程序；</strong></li>
+<li><strong>/usr/bin/v2ray/v2ctl：V2Ray 工具；</strong></li>
+<li><strong>/etc/v2ray/config.json：配置文件；</strong></li>
+<li><strong>/usr/bin/v2ray/geoip.dat：IP 数据文件</strong></li>
+<li><strong>/usr/bin/v2ray/geosite.dat：域名数据文件</strong></li>
+</ul>
+<p>此脚本会配置自动运行脚本。自动运行脚本会在系统重启之后，自动运行 V2Ray。目前自动运行脚本只支持带有 Systemd 的系统，以及 Debian / Ubuntu 全系列。</p>
+<p>运行脚本位于系统的以下位置：</p>
+<p><code>/etc/systemd/system/v2ray.service: Systemd</code><br><code>/etc/init.d/v2ray: SysV</code><br>脚本运行完成后，你需要：</p>
+<p>编辑<code>/etc/v2ray/config.json</code>文件来配置你需要的代理方式；<br>运行 <code>service v2ray start</code> 来启动 V2Ray 进程；<br>之后可以使用 <code>service v2ray start|stop|status|reload|restart|force-reload</code>控制 V2Ray 的运行。</p>
+<h5 id="配置示范"><a href="#配置示范" class="headerlink" title="配置示范"></a>配置示范</h5><ul>
+<li><strong>CADDY+ HTTP + V2RAY + TLS</strong><div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"log"</span>: &#123;
+        <span class="hljs-attr">"access"</span>: <span class="hljs-string">"/var/log/v2ray/access.log"</span>,
+        <span class="hljs-attr">"error"</span>: <span class="hljs-string">"/var/log/v2ray/error.log"</span>,
+        <span class="hljs-attr">"loglevel"</span>: <span class="hljs-string">"none"</span>
+    &#125;,
+	    <span class="hljs-attr">"stats"</span>: &#123;&#125;,
+		 <span class="hljs-attr">"policy"</span>: &#123;
+			  <span class="hljs-attr">"system"</span>: &#123;
+			   <span class="hljs-attr">"statsInboundDownlink"</span>: <span class="hljs-literal">true</span>,
+			   <span class="hljs-attr">"statsInboundUplink"</span>: <span class="hljs-literal">true</span>
+			  &#125;,
+			  <span class="hljs-attr">"levels"</span>: &#123;
+			   <span class="hljs-attr">"1"</span>: &#123;
+				<span class="hljs-attr">"statsUserUplink"</span>: <span class="hljs-literal">true</span>,
+				<span class="hljs-attr">"statsUserDownlink"</span>: <span class="hljs-literal">true</span>
+			   &#125;
+			  &#125;
+		 &#125;,
+	    <span class="hljs-attr">"api"</span>: &#123;
+	        <span class="hljs-attr">"services"</span>: [
+                <span class="hljs-string">"HandlerService"</span>,
+                <span class="hljs-string">"LoggerService"</span>,
+                <span class="hljs-string">"StatsService"</span>
+	        ],
+	        <span class="hljs-attr">"tag"</span>: <span class="hljs-string">"api"</span>
+        &#125;,
+        <span class="hljs-attr">"levels"</span>: &#123;
+            <span class="hljs-attr">"1"</span>: &#123;
+                <span class="hljs-attr">"bufferSize"</span>: <span class="hljs-number">40960</span>
+            &#125;
+        &#125;,
+		<span class="hljs-attr">"inbound"</span>: &#123;
+			<span class="hljs-attr">"sniffing"</span>: &#123;
+			<span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">true</span>,
+			<span class="hljs-attr">"destOverride"</span>: [
+				<span class="hljs-string">"http"</span>,
+				<span class="hljs-string">"tls"</span>
+			]
+        &#125;,
+        <span class="hljs-attr">"udp"</span>: <span class="hljs-literal">true</span>,
+		<span class="hljs-attr">"port"</span>:<span class="hljs-number">8883</span> ,
+		<span class="hljs-attr">"listen"</span>:<span class="hljs-string">"127.0.0.1"</span>,
+		 <span class="hljs-attr">"protocol"</span>: <span class="hljs-string">"vmess"</span>,
+					<span class="hljs-attr">"settings"</span>: &#123;
+							<span class="hljs-attr">"clients"</span>: [
+							&#123;
+								<span class="hljs-attr">"id"</span>: <span class="hljs-string">"f6707c17-0000-0000-000-000000000"</span>,
+								<span class="hljs-attr">"level"</span>: <span class="hljs-number">1</span>,
+								<span class="hljs-attr">"alterId"</span>: <span class="hljs-number">500</span>,
+								<span class="hljs-attr">"security"</span>: <span class="hljs-string">"auto"</span>                                   
+                            &#125;                        			                    
+							]
+					&#125;,
+					<span class="hljs-attr">"streamSettings"</span>:&#123;
+							<span class="hljs-attr">"network"</span>:<span class="hljs-string">"ws"</span>,
+							<span class="hljs-attr">"security"</span>: <span class="hljs-string">"auto"</span>,
+							<span class="hljs-attr">"wsSettings"</span>:&#123;
+									<span class="hljs-attr">"path"</span>: <span class="hljs-string">"/path/"</span>
+									&#125;
+							&#125;,
+					<span class="hljs-attr">"sockopt"</span>: &#123;
+							 <span class="hljs-attr">"mark"</span>: <span class="hljs-number">0</span>,
+							 <span class="hljs-attr">"tcpFastOpen"</span>: <span class="hljs-literal">true</span>
+					&#125;,
+					<span class="hljs-attr">"tag"</span>: <span class="hljs-string">"KR"</span>
+			&#125;,
+		<span class="hljs-attr">"inboundDetour"</span>: [
+        
+		  &#123;
+		   <span class="hljs-attr">"protocol"</span>: <span class="hljs-string">"dokodemo-door"</span>,
+		   <span class="hljs-attr">"listen"</span>: <span class="hljs-string">"127.0.0.1"</span>,
+		   <span class="hljs-attr">"settings"</span>: &#123;
+			<span class="hljs-attr">"address"</span>: <span class="hljs-string">"127.0.0.1"</span>
+		   &#125;,
+		   <span class="hljs-attr">"port"</span>: <span class="hljs-number">9548</span>,
+		   <span class="hljs-attr">"tag"</span>: <span class="hljs-string">"api"</span>
+		  &#125;
+		 ],
+    <span class="hljs-attr">"outbound"</span>: &#123;
+        <span class="hljs-attr">"protocol"</span>: <span class="hljs-string">"freedom"</span>,
+        <span class="hljs-attr">"settings"</span>: &#123;&#125;
+    &#125;,
+    <span class="hljs-attr">"outboundDetour"</span>: [
+        &#123;
+            <span class="hljs-attr">"protocol"</span>: <span class="hljs-string">"blackhole"</span>,
+            <span class="hljs-attr">"settings"</span>: &#123;&#125;,
+            <span class="hljs-attr">"tag"</span>: <span class="hljs-string">"blocked"</span>
+        &#125;    
+    ],
+    <span class="hljs-attr">"dns"</span>: &#123;
+        <span class="hljs-attr">"servers"</span>: [
+		<span class="hljs-string">"https://dns.google/dns-query"</span>,
+		<span class="hljs-string">"https://1.1.1.1/dns-query"</span>,
+		<span class="hljs-string">"203.248.252.2"</span>,
+		<span class="hljs-string">"164.124.101.2"</span>,
+        <span class="hljs-string">"127.0.0.1"</span>
+        ]
+    &#125;
+    ,
+    <span class="hljs-attr">"routing"</span>: &#123;
+        <span class="hljs-attr">"strategy"</span>: <span class="hljs-string">"rules"</span>,
+        <span class="hljs-attr">"settings"</span>: &#123;
+            <span class="hljs-attr">"rules"</span>: [
+				&#123;
+				 <span class="hljs-attr">"inboundTag"</span>: [
+				  <span class="hljs-string">"api"</span>
+				 ],
+				 <span class="hljs-attr">"outboundTag"</span>: <span class="hljs-string">"api"</span>,
+				 <span class="hljs-attr">"type"</span>: <span class="hljs-string">"field"</span>
+				&#125;,
+                &#123;
+                    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"field"</span>,
+                    <span class="hljs-attr">"outboundTag"</span>: <span class="hljs-string">"block"</span>,
+                    <span class="hljs-attr">"protocol"</span>: [
+                      <span class="hljs-string">"bittorrent"</span>
+                    ]
+                  &#125;,
+                &#123;
+                    <span class="hljs-attr">"type"</span>: <span class="hljs-string">"field"</span>,
+                    <span class="hljs-attr">"ip"</span>: [
+                        <span class="hljs-string">"0.0.0.0/8"</span>,
+                        <span class="hljs-string">"10.0.0.0/8"</span>,
+                        <span class="hljs-string">"100.64.0.0/10"</span>,
+                        <span class="hljs-string">"127.0.0.0/8"</span>,
+                        <span class="hljs-string">"169.254.0.0/16"</span>,
+                        <span class="hljs-string">"172.16.0.0/12"</span>,
+                        <span class="hljs-string">"192.0.0.0/24"</span>,
+                        <span class="hljs-string">"192.0.2.0/24"</span>,
+                        <span class="hljs-string">"192.168.0.0/16"</span>,
+                        <span class="hljs-string">"198.18.0.0/15"</span>,
+                        <span class="hljs-string">"198.51.100.0/24"</span>,
+                        <span class="hljs-string">"203.0.113.0/24"</span>,
+                        <span class="hljs-string">"::1/128"</span>,
+                        <span class="hljs-string">"fc00::/7"</span>,
+                        <span class="hljs-string">"fe80::/10"</span>
+                    ],
+                    <span class="hljs-attr">"outboundTag"</span>: <span class="hljs-string">"blocked"</span>
+                &#125;
+            ]
+        &#125;
+    &#125;
+&#125;</code></pre></div></li>
+<li><strong>CADDY+ HTTP2 + V2RAY + TLS</strong><div class="hljs"><pre><code class="hljs json">&#123;
 
-<a id="more"></a>
+  <span class="hljs-attr">"inbound"</span>: &#123;
+    <span class="hljs-attr">"port"</span>: <span class="hljs-number">8883</span>,
+    <span class="hljs-attr">"listen"</span>: <span class="hljs-string">"127.0.0.1"</span>,
+    <span class="hljs-attr">"protocol"</span>: <span class="hljs-string">"vmess"</span>,
+    <span class="hljs-attr">"settings"</span>: &#123;
+      <span class="hljs-attr">"clients"</span>: [
+        &#123;
+          <span class="hljs-attr">"id"</span>: <span class="hljs-string">"f6707c17-00000-0000-0000-00000000000"</span>,
+          <span class="hljs-attr">"level"</span>: <span class="hljs-number">1</span>,
+          <span class="hljs-attr">"alterId"</span>: <span class="hljs-number">64</span>
+        &#125;
+      ]
+    &#125;,
 
-<p>Ubuntu修改时区和更新时间<br>先查看当前系统时间</p>
-<div class="hljs"><pre><code class="hljs plain">root@ubuntu:&#x2F;# date -R</code></pre></div>
-<p>结果时区是：-0500<br>我需要的是东八区，这儿显示不是，所以需要设置一个时区</p>
-<p>1.运行tzselect</p>
-<div class="hljs"><pre><code class="hljs plain">root@ubuntu:&#x2F;# tzselect</code></pre></div>
+    <span class="hljs-attr">"streamSettings"</span>: &#123;
+      <span class="hljs-attr">"network"</span>: <span class="hljs-string">"h2"</span>,
+      <span class="hljs-attr">"security"</span>: <span class="hljs-string">"tls"</span>,
+      <span class="hljs-attr">"httpSettings"</span>: &#123;
+        <span class="hljs-attr">"path"</span>: <span class="hljs-string">"/apth"</span>,
+        <span class="hljs-attr">"host"</span>: <span class="hljs-string">"xxx.com"</span>
+      &#125;,
+      <span class="hljs-attr">"tlsSettings"</span>: &#123;
+        <span class="hljs-attr">"serverName"</span>: <span class="hljs-string">"xxx.com"</span>,
+        <span class="hljs-attr">"certificates"</span>: [
+        &#123;
+          <span class="hljs-attr">"certificateFile"</span>: <span class="hljs-string">"/etc/v2ray/v2ray.crt"</span>,
+          <span class="hljs-attr">"keyFile"</span>: <span class="hljs-string">"/etc/v2ray/v2ray.key"</span>
+        &#125;
+        ]
+      &#125;
+    &#125;
+  &#125;,
 
-<p>在这里我们选择亚洲 Asia，确认之后选择中国（China)，最后选择北京(Beijing)</p>
-<p>2.复制文件到/etc目录下</p>
-<div class="hljs"><pre><code class="hljs plain">root@ubuntu:&#x2F;# cp &#x2F;usr&#x2F;share&#x2F;zoneinfo&#x2F;Asia&#x2F;Shanghai  &#x2F;etc&#x2F;localtime</code></pre></div>
+  <span class="hljs-attr">"outbound"</span>: &#123;
+    <span class="hljs-attr">"protocol"</span>: <span class="hljs-string">"freedom"</span>,
+    <span class="hljs-attr">"settings"</span>: &#123;&#125;
+  &#125;,
+  <span class="hljs-attr">"outboundDetour"</span>: [
+    &#123;
+      <span class="hljs-attr">"protocol"</span>: <span class="hljs-string">"blackhole"</span>,
+      <span class="hljs-attr">"settings"</span>: &#123;&#125;,
+      <span class="hljs-attr">"tag"</span>: <span class="hljs-string">"blocked"</span>
+    &#125;
+  ],
+  <span class="hljs-attr">"routing"</span>: &#123;
+    <span class="hljs-attr">"strategy"</span>: <span class="hljs-string">"rules"</span>,
+    <span class="hljs-attr">"settings"</span>: &#123;
+      <span class="hljs-attr">"rules"</span>: [
+        &#123;
+          <span class="hljs-attr">"type"</span>: <span class="hljs-string">"field"</span>,
+          <span class="hljs-attr">"ip"</span>: [
+            <span class="hljs-string">"0.0.0.0/8"</span>,
+            <span class="hljs-string">"10.0.0.0/8"</span>,
+            <span class="hljs-string">"100.64.0.0/10"</span>,
+            <span class="hljs-string">"127.0.0.0/8"</span>,
+            <span class="hljs-string">"169.254.0.0/16"</span>,
+            <span class="hljs-string">"172.16.0.0/12"</span>,
+            <span class="hljs-string">"192.0.0.0/24"</span>,
+            <span class="hljs-string">"192.0.2.0/24"</span>,
+            <span class="hljs-string">"192.168.0.0/16"</span>,
+            <span class="hljs-string">"198.18.0.0/15"</span>,
+            <span class="hljs-string">"198.51.100.0/24"</span>,
+            <span class="hljs-string">"203.0.113.0/24"</span>,
+            <span class="hljs-string">"::1/128"</span>,
+            <span class="hljs-string">"fc00::/7"</span>,
+            <span class="hljs-string">"fe80::/10"</span>
+          ],
+          <span class="hljs-attr">"outboundTag"</span>: <span class="hljs-string">"blocked"</span>
+        &#125;
+      ]
+    &#125;
+  &#125;
 
-<p>3.再次查看时间date -R，已经修改为北京时间</p>
-<p>改时间参考<br>修改时间</p>
-<div class="hljs"><pre><code class="hljs plain">sudo date -s MM&#x2F;DD&#x2F;YY &#x2F;&#x2F;修改日期
-sudo date -s hh:mm:ss &#x2F;&#x2F;修改时间</code></pre></div>
-<p>在修改时间以后，修改硬件CMOS的时间</p>
-<div class="hljs"><pre><code class="hljs plain">sudo hwclock --systohc &#x2F;&#x2F;非常重要，如果没有这一步的话，后面时间还是不准</code></pre></div>
+&#125;</code></pre></div></li>
+</ul>
+
             </article>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0/">日常笔记</a>
-                    
-                  </div>
-                
-                
-                  <div class="post-meta">
-                    <i class="iconfont icon-tags"></i>
-                    
-                      <a class="hover-with-bg" href="/tags/VPN/">VPN</a>
-                    
-                  </div>
                 
               </div>
               
@@ -261,18 +462,12 @@ sudo date -s hh:mm:ss &#x2F;&#x2F;修改时间</code></pre></div>
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2019/2ac27b95.html">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Softether VPNClient Linux端配置及加入VPNServer过程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2019/4bd2725e.html">
-                        <span class="hidden-mobile">升级 Ubuntu，解决登录时提示有软件包可以更新的问题</span>
+                      <a href="/2020/d3cb4e9.html">
+                        <span class="hidden-mobile">CADDY一键安装脚本及简单配置</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
