@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>Linux使用expect,登录并同步文件</title>
+    <link href="/2020/ec5147b2.html"/>
+    <url>/2020/ec5147b2.html</url>
+    
+    <content type="html"><![CDATA[<p><strong>由于需要同步linux两端的文件，写了一个同步脚本！(此脚本也可用于vps静态部署hexo)。</strong></p><div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment">#！ /bin/sh</span><span class="hljs-comment">#删除远程服务器文件</span><span class="hljs-function"><span class="hljs-title">deleteblog</span></span>()&#123;expect -c <span class="hljs-string">"</span><span class="hljs-string">spawn ssh -i /root/.ssh/id_rsa1 root@xxx.xxx.xxx.xxx rm -fr /var/www/*</span><span class="hljs-string">expect &#123;</span><span class="hljs-string">               yes/no &#123; send \"yes\r\"; exp_continue &#125;</span><span class="hljs-string">               passphrase* &#123; send \"123456\r\" &#125; #  123456 为秘钥密码</span><span class="hljs-string">   &#123; send \"exit\r\" &#125;</span><span class="hljs-string">           &#125;;</span><span class="hljs-string">expect eof</span><span class="hljs-string">       "</span>   &#125;<span class="hljs-comment">#将文件同步到远程服务器</span><span class="hljs-function"><span class="hljs-title">sendblog</span></span>()&#123;expect -c <span class="hljs-string">"   </span><span class="hljs-string">           set timeout -1</span><span class="hljs-string">           spawn scp -i /root/.ssh/id_rsa1 /date/dingblog.tar.gz  root@xxx.xxx.xxx.xxx:/var/www/</span><span class="hljs-string">           expect &#123;</span><span class="hljs-string">               yes/no &#123; send \"yes\r\"; exp_continue &#125;</span><span class="hljs-string">               passphrase* &#123; send \"123456\r\" &#125; #  123456 为秘钥密码</span><span class="hljs-string">   &#123; send \"exit\r\" &#125;</span><span class="hljs-string">           &#125;;</span><span class="hljs-string">           expect eof;</span><span class="hljs-string">       "</span>   &#125;<span class="hljs-comment">#解压远程服务器文件</span><span class="hljs-function"><span class="hljs-title">tarblog</span></span>()&#123;expect -c <span class="hljs-string">"   </span><span class="hljs-string">           spawn ssh -i /root/.ssh/id_rsa1 root@xxx.xxx.xxx.xxx tar zxvf /var/www/dingblog.tar.gz -C /var/www/</span><span class="hljs-string">           expect &#123;</span><span class="hljs-string">               yes/no &#123; send \"yes\r\"; exp_continue &#125;</span><span class="hljs-string">               passphrase* &#123; send \"123456\r\" &#125; #  123456 为秘钥密码</span><span class="hljs-string">   &#123; send \"exit\r\" &#125;</span><span class="hljs-string">           &#125;;</span><span class="hljs-string">           expect eof;</span><span class="hljs-string">       "</span>   &#125;deleteblogsendblogtarblog</code></pre></div>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>吉比特 wo-27s 光猫获取超密</title>
     <link href="/2020/ddc395d6.html"/>
     <url>/2020/ddc395d6.html</url>
