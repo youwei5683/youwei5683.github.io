@@ -4,6 +4,45 @@
   
   
   <entry>
+    <title>吉比特 wo-27s 光猫获取超密</title>
+    <link href="/2020/ddc395d6.html"/>
+    <url>/2020/ddc395d6.html</url>
+    
+    <content type="html"><![CDATA[<p>支持 <code>吉比特</code> 其他型号小伙伴可以自己测试。<br>1.光猫背面有光猫管理地址 如: 192.168.x.x 用户名及密码。用默认地址 和 用户名密码登录。</p><p>2.登录成功后直接输入 <code>http://192.168.x.x/dumpdatamodel.cgi</code></p><p>3.打开下载成功的文件，推荐使用 <code>notepad++</code>查找 <Account> 不出意外 第一个username就是超级用户名，web_passwd就是超级密码，这是我的:</p><p> <code>&lt;Account&gt;    &lt;Entry0Active=&quot;Yes&quot;username=&quot;lnadmin&quot;web_passwd=&quot;lnadmin0123456&quot;</code><br>然后就可以使用地址<code>http://192.168.x.x/cu.html</code> 登录啦！！！</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>友华PT622光猫获取超密</title>
+    <link href="/2020/ee7d8191.html"/>
+    <url>/2020/ee7d8191.html</url>
+    
+    <content type="html"><![CDATA[<p>支持 <code>友华 PT622</code> 、  <code>友华PT921G</code> 其他型号小伙伴可以自己测试。<br>1.光猫背面有光猫管理地址 如: 192.168.x.x 用户名及密码。用默认地址 和 用户名密码登录。</p><p>2.登录成功后直接输入 <code>http://192.168.x.x/romfile.cfg</code></p><p>3.打开下载成功的文件，推荐使用 <code>notepad++</code>查找 <Account> 不出意外 第一个username就是超级用户名，web_passwd就是超级密码，这是我的:</p><p> <code>&lt;Account&gt;    &lt;Entry0Active=&quot;Yes&quot;username=&quot;lnadmin&quot;web_passwd=&quot;lnadmin0123456&quot;</code><br>然后就可以使用地址<code>http://192.168.x.x/cu.html</code> 登录啦！！！</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Proxifier注册码</title>
+    <link href="/2020/f53eb66d.html"/>
+    <url>/2020/f53eb66d.html</url>
+    
+    <content type="html"><![CDATA[<p>Proxifier 注册码，亲测 3.4.2有效</p><p><code>L6Z8A-XY2J4-BTZ3P-ZZ7DF-A2Q9C（Portable Edition）</code></p><p><code>5EZ8G-C3WL5-B56YG-SCXM9-6QZAP（Standard Edition）</code></p><p><code>P427L-9Y552-5433E-8DSR3-58Z68（MAC）</code></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>MTU值的作用以及设置</title>
     <link href="/2020/a0a0f41d.html"/>
     <url>/2020/a0a0f41d.html</url>
