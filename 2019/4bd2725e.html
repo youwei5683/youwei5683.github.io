@@ -167,7 +167,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    485 字
+                    49 字
                   </span>
                 
 
@@ -177,7 +177,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    6
+                    1
                      分钟
                   </span>
                 
@@ -212,33 +212,13 @@
               </p>
             
             <article class="markdown-body">
-              <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><center>升级 Ubuntu，解决登录时提示有软件包可以更新的问题。</center>
-
+              <p>升级 Ubuntu，解决登录时提示有软件包可以更新的问题。</p>
 <a id="more"></a>
+<div class="hljs"><pre><code class="hljs bash"><span class="hljs-comment"># 执行</span>
+apt-get update &amp;&amp; apt-get upgrade &amp;&amp; apt-get dist-upgrade
 
-<p>Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.13.0–48-generic x86_64)</p>
-<ul>
-<li>Documentation: <a href="https://help.ubuntu.com/" target="_blank" rel="noopener">https://help.ubuntu.com/</a> System information as of Sat Jun 27 01:12:04 UTC 2015 System load: 0.0 Processes: 98 Usage of /: 10.6% of 9.71GB Users logged in: 0 Memory usage: 10% IP address for eth0: 192.168.12.233 Swap usage: 0%<br>Graph this data and manage this system at:<br><a href="https://landscape.canonical.com/" target="_blank" rel="noopener">https://landscape.canonical.com/</a> Get cloud support with Ubuntu Advantage Cloud Guest:<br><a href="http://www.ubuntu.com/business/services/cloud" target="_blank" rel="noopener">http://www.ubuntu.com/business/services/cloud</a> 91 packages can be updated. 39 updates are security updates.</li>
-</ul>
-<p>对于一般的更新，如果不影响使用，一般也就罢了。但是通常，如果系统提示有安全更新，大多数用户（特别是服务器管理员）还是会去更新的。不过，面对 Ubuntu 的这些提示，很多用户经常遇到「不管怎么apt-get updage &amp;&amp; apt-get upgrade也不见好」的问题。</p>
-<p>升级命令<br>虽然 apt-get 经常被人诟病，但实际上它还是个挺好用的软件包管理器。在 Ubuntu 14.04 以后的系统中，apt-get 相关的升级更新命令有四个：</p>
-<div class="hljs"><pre><code class="hljs plain">#####从服务器更新可用的软件包列表。
-update 
-
-根据列表，更新已安装的软件包。upgrade不会删除在列表中已经没有的软件包，也不会安装有依赖需求但尚未安装的软件包。
-#####upgrade 
-
-根据列表，更新已安装的软件包。full-upgrade可能会为了解决软件包冲突而删除一些已安装的软件包。
-#####apt-get full–upgrade
-
-根据列表，更新已安装的软件包。dist-upgrade可能会为了解决软件包冲突而删除一些已安装的软件包，也可能会为了解决软件包依赖问题安装新的软件包。
-#####dist-upgrade</code></pre></div>
-<p>#####我们应该怎么做？依次执行如下命令即可：</p>
-<div class="hljs"><pre><code class="hljs plain">apt-get update 
-apt-get upgrade 
-apt-get dist-upgrade
-reboot
-apt-get update &amp;&amp; apt-get upgrade &amp;&amp; apt-get dist-upgrade</code></pre></div>
+<span class="hljs-comment"># 重启命令可以选择性执行</span>
+reboot</code></pre></div>
             </article>
             <hr>
             <div>
